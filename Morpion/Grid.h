@@ -2,15 +2,18 @@
 
 #include "Defs.h"
 
+enum Player;
+
 class Grid : public sf::Drawable, public sf::Transformable
 {
 	public :
-		Grid();
+		Grid(sf::Vector2f &position = sf::Vector2f(0.f, 0.f));
 		~Grid();
 
 	private :
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		sf::RectangleShape m_rect;
+		sf::VertexArray m_vertices;
+		Player m_gridArray[3][3];
 };
 
