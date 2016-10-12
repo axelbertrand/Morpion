@@ -30,7 +30,8 @@ Application::Application() :
 	m_selectedPlayer.setOutlineThickness(3);
 	m_selectedPlayer.setOutlineColor(sf::Color::Black);
 	m_selectedPlayer.setFillColor(sf::Color::Transparent);
-	m_selectedPlayer.setPosition(sf::Vector2f(bounds.top, bounds.left));
+	m_selectedPlayer.setOrigin(sf::Vector2f(bounds.width / 2.f, bounds.width / 2.f));
+	m_selectedPlayer.setPosition(sf::Vector2f(bounds.left + bounds.width / 2.f, bounds.top + bounds.width / 2.f));
 	m_selectedPlayer.setSize(sf::Vector2f(bounds.width, bounds.height));
 }
 
