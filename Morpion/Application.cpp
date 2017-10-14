@@ -31,8 +31,8 @@ Application::Application() :
 	m_selectedPlayer.setOutlineColor(sf::Color::Black);
 	m_selectedPlayer.setFillColor(sf::Color::Transparent);
 	m_selectedPlayer.setOrigin(sf::Vector2f(bounds.width / 2.f, bounds.width / 2.f));
-	m_selectedPlayer.setPosition(sf::Vector2f(bounds.left + bounds.width / 2.f, bounds.top + bounds.width / 2.f));
-	m_selectedPlayer.setSize(sf::Vector2f(bounds.width, bounds.height));
+	m_selectedPlayer.setPosition(sf::Vector2f(bounds.left - 10 + bounds.width / 2.f, bounds.top - 10 + bounds.width / 2.f));
+	m_selectedPlayer.setSize(sf::Vector2f(bounds.width + 20, bounds.height + 20));
 }
 
 Application::~Application()
@@ -66,8 +66,17 @@ void Application::processEvents()
 
 	while (m_window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed)
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				m_grid.play(m_currentPlayer, event.mouseButton.x, event.mouseButton.y);
+			}
+		}
+		else if (event.type == sf::Event::Closed)
+		{
 			m_window.close();
+		}
 	}
 }
 
