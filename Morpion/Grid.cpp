@@ -50,29 +50,6 @@ Grid::~Grid()
 	}
 }
 
-void Grid::play(Player player, int x, int y)
-{
-	int clickedCell = getClickedCell(x, y);
-	if (clickedCell < 0)
-	{
-		return;
-	}
-
-	int i = clickedCell / 3;
-	int j = clickedCell % 3;
-
-	m_gridArray[i][j] = player;
-
-	if (player == 1)
-	{
-		drawCross(i, j);
-	}
-	else if (player == 2)
-	{
-		drawCircle(i, j);
-	}
-}
-
 void Grid::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
@@ -130,4 +107,9 @@ void Grid::drawCircle(int i, int j)
 	circle->setOutlineColor(sf::Color::Black);
 
 	m_gridShapes[i][j] = circle;
+}
+
+void Grid::setGrid(int i, int j, int player)
+{
+	m_gridArray[i][j] = player;
 }

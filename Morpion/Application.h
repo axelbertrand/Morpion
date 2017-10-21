@@ -2,14 +2,7 @@
 
 #include "Defs.h"
 #include "Grid.h"
-
-enum Player
-{
-	NoPlayer,
-	Player1,
-	Player2,
-	PlayerCount
-};
+#include "Player.h"
 
 class Application
 {
@@ -28,6 +21,8 @@ class Application
 		sf::RenderWindow m_window;
 		sf::Text m_textP1;
 		sf::Text m_textP2;
+		sf::Text m_endGameText;
+		sf::Text m_restartText;
 		sf::Font m_font;
 		Grid m_grid;
 		Player m_currentPlayer;

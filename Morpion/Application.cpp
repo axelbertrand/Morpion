@@ -7,7 +7,7 @@ Application::Application() :
 	m_textP2(),
 	m_font(),
 	m_grid(sf::Vector2f(200.f, 200.f)),
-	m_currentPlayer(Player::Player1),
+	m_currentPlayer(1),
 	m_selectedPlayer()
 {
 	m_window.setKeyRepeatEnabled(false);
@@ -70,7 +70,7 @@ void Application::processEvents()
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				m_grid.play(m_currentPlayer, event.mouseButton.x, event.mouseButton.y);
+				m_currentPlayer.play(m_grid, event.mouseButton.x, event.mouseButton.y);
 			}
 		}
 		else if (event.type == sf::Event::Closed)
