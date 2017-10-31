@@ -25,7 +25,8 @@ class Application
 		sf::Text m_restartText;
 		sf::Font m_font;
 		Grid m_grid;
-		Player m_currentPlayer;
+		int m_currentPlayer;
+		Player* m_players[2];
 		sf::RectangleShape m_selectedPlayer;
 };
 

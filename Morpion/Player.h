@@ -9,7 +9,7 @@ class Player
 		Player(int playerNo);
 		~Player();
 
-		void play(Grid &grid, int x, int y);
+		bool play(Grid &grid, int x, int y);
 
 	private :
 		int m_playerNo;

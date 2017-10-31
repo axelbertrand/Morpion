@@ -12,25 +12,31 @@ Player::~Player()
 
 }
 
-void Player::play(Grid & grid, int x, int y)
+bool Player::play(Grid & grid, int x, int y)
 {
 	int clickedCell = grid.getClickedCell(x, y);
 	if (clickedCell < 0)
 	{
-		return;
+		return false;
 	}
 
 	int i = clickedCell / 3;
 	int j = clickedCell % 3;
 
-	grid.setGrid(i, j, m_playerNo);
+	if (grid.getGrid(i, j) == 0)
+	{
+		grid.setGrid(i, j, m_playerNo);
+		if (m_playerNo == 1)
+		{
+			grid.drawCross(i, j);
+		}
+		else if (m_playerNo == 2)
+		{
+			grid.drawCircle(i, j);
+		}
 
-	if (m_playerNo == 1)
-	{
-		grid.drawCross(i, j);
+		return true;
 	}
-	else if (m_playerNo == 2)
-	{
-		grid.drawCircle(i, j);
-	}
+
+	return false;
 }

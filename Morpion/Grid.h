@@ -12,6 +12,7 @@ class Grid : public sf::Drawable, public sf::Transformable
 		void drawCross(int i, int j);
 		void drawCircle(int i, int j);
 		void setGrid(int i, int j, int player);
+		int getGrid(int i, int j) const;
 
 	private :
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

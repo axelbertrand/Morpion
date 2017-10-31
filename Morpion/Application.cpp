@@ -7,7 +7,7 @@ Application::Application() :
 	m_textP2(),
 	m_font(),
 	m_grid(sf::Vector2f(200.f, 200.f)),
-	m_currentPlayer(1),
+	m_currentPlayer(0),
 	m_selectedPlayer()
 {
 	m_window.setKeyRepeatEnabled(false);
@@ -33,11 +33,15 @@ Application::Application() :
 	m_selectedPlayer.setOrigin(sf::Vector2f(bounds.width / 2.f, bounds.width / 2.f));
 	m_selectedPlayer.setPosition(sf::Vector2f(bounds.left - 10 + bounds.width / 2.f, bounds.top - 10 + bounds.width / 2.f));
 	m_selectedPlayer.setSize(sf::Vector2f(bounds.width + 20, bounds.height + 20));
+
+	m_players[0] = new Player(1);
+	m_players[1] = new Player(2);
 }
 
 Application::~Application()
 {
-
+	delete m_players[0];
+	delete m_players[1];
 }
 
 void Application::run()
@@ -70,7 +74,10 @@ void Application::processEvents()
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				m_currentPlayer.play(m_grid, event.mouseButton.x, event.mouseButton.y);
+				if (m_players[m_currentPlayer]->play(m_grid, event.mouseButton.x, event.mouseButton.y))
+				{
+					m_currentPlayer = (m_currentPlayer + 1) % 2;
+				}
 			}
 		}
 		else if (event.type == sf::Event::Closed)
