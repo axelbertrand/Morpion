@@ -28,5 +28,6 @@ class Application
 		int m_currentPlayer;
 		Player* m_players[2];
 		sf::RectangleShape m_selectedPlayer;
+		int m_turnNum = 0;
 };
 

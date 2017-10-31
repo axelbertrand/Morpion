@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <sstream>
 
 Application::Application() :
 	TIME_PER_FRAME(sf::seconds(1.f / 60.f)),
@@ -14,6 +15,14 @@ Application::Application() :
 
 	if (!m_font.loadFromFile("arial.ttf"))
 		std::cerr << "erreur de chargement de la police" << std::endl;
+
+	m_endGameText.setFont(m_font);
+	m_endGameText.setColor(sf::Color::Black);
+	m_endGameText.setPosition(sf::Vector2f(300.f, 100.f));
+
+	m_restartText.setFont(m_font);
+	m_restartText.setColor(sf::Color::Black);
+	m_restartText.setPosition(sf::Vector2f(300.f, 500.f));
 
 	m_textP1.setString("Joueur 1 : 0");
 	m_textP1.setFont(m_font);
@@ -76,7 +85,23 @@ void Application::processEvents()
 			{
 				if (m_players[m_currentPlayer]->play(m_grid, event.mouseButton.x, event.mouseButton.y))
 				{
+					++m_turnNum;
 					m_currentPlayer = (m_currentPlayer + 1) % 2;
+					int gagnant = m_players[m_currentPlayer]->checkWin(m_grid, m_turnNum);
+					if (gagnant != 0)
+					{
+						std::stringstream s;
+						switch (gagnant)
+						{
+							case 1:
+							case 2:
+								s << "Le joueur " << gagnant << " a gagné !";
+								m_endGameText.setString(s.str());
+							case 3:
+								m_endGameText.setString("Egalité");
+						}
+						// Recommencer ?
+					}
 				}
 			}
 		}
