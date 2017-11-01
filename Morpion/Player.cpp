@@ -41,42 +41,52 @@ bool Player::play(Grid & grid, int x, int y)
 	return false;
 }
 
-bool Player::checkWin(Grid & grid, int turnNum)
+int Player::checkWin(Grid & grid, int turnNum)
 {
-	int gagnant = 0;
+	int winner = 0;
 
 	for (int i = 0; i < 3; ++i)
 	{
 		if ((grid.getGrid(0, i) == m_playerNo) && (grid.getGrid(1, i) == m_playerNo) && (grid.getGrid(2, i) == m_playerNo))
 		{
-			gagnant = m_playerNo;
+			winner = m_playerNo;
 			// Dessiner une ligne verticale
 		}
 		if ((grid.getGrid(i, 0) == m_playerNo) && (grid.getGrid(i, 1) == m_playerNo) && (grid.getGrid(i, 2) == m_playerNo))
 		{
-			gagnant = m_playerNo;
+			winner = m_playerNo;
 			// Dessiner une ligne horizontale
 		}
 	}
 
 	if ((grid.getGrid(0, 0) == m_playerNo) && (grid.getGrid(1, 1) == m_playerNo) && (grid.getGrid(2, 2) == m_playerNo))
 	{
-		gagnant = m_playerNo;
+		winner = m_playerNo;
 		// Dessiner une ligne diagonale NO-SE
 	}
 	if ((grid.getGrid(2, 0) == m_playerNo) && (grid.getGrid(1, 1) == m_playerNo) && (grid.getGrid(0, 2) == m_playerNo))
 	{
-		gagnant = m_playerNo;
+		winner = m_playerNo;
 		// Dessiner une ligne diagonale SO-NE
 	}
 
-	if (gagnant != 0)
+	if (winner != 0)
 	{
 		++m_score;
-		return gagnant;
+		return winner;
 	}
 	else if (turnNum >= 9)
 	{
 		return 3; // Egalité
 	}
+}
+
+void Player::incrementScore()
+{
+	++m_score;
+}
+
+int Player::getScore() const
+{
+	return m_score;
 }

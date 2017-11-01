@@ -121,3 +121,19 @@ int Grid::getGrid(int i, int j) const
 {
 	return m_gridArray[i][j];
 }
+
+void Grid::emptyGrid()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			m_gridArray[i][j] = 0;
+			if (m_gridShapes[i][j] != nullptr)
+			{
+				delete m_gridShapes[i][j];
+				m_gridShapes[i][j] = nullptr;
+			}
+		}
+	}
+}

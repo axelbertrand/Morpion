@@ -10,7 +10,10 @@ class Player
 		~Player();
 
 		bool play(Grid &grid, int x, int y);
-		bool checkWin(Grid &grid, int turnNum);
+		int checkWin(Grid &grid, int turnNum);
+
+		void incrementScore();
+		int getScore() const;
 
 	private :
 		int m_playerNo;

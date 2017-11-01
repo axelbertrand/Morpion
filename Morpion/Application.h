@@ -15,6 +15,8 @@ class Application
 	private :
 		void processEvents();
 		void render();
+		bool playTurn(int xClic, int yClic);
+		bool restartGame();
 
 		const sf::Time Application::TIME_PER_FRAME;
 
