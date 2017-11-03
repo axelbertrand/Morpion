@@ -22,7 +22,7 @@ Application::Application() :
 
 	m_restartText.setFont(m_font);
 	m_restartText.setColor(sf::Color::Black);
-	m_restartText.setPosition(sf::Vector2f(300.f, 500.f));
+	m_restartText.setPosition(sf::Vector2f(50.f, 500.f));
 
 	m_textP1.setString("Joueur 1 : 0");
 	m_textP1.setFont(m_font);
@@ -83,7 +83,11 @@ void Application::processEvents()
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				playTurn(event.mouseButton.x, event.mouseButton.y);
+				if (playTurn(event.mouseButton.x, event.mouseButton.y))
+				{
+					if(!restartGame(event))
+						m_window.close();
+				}
 			}
 		}
 		else if (event.type == sf::Event::Closed)
@@ -129,58 +133,44 @@ bool Application::playTurn(int xClic, int yClic)
 
 					s.str("");
 					s << "Joueur 2 : " << m_players[1]->getScore();
-					m_textP1.setString(s.str());
+					m_textP2.setString(s.str());
 					break;
 				case 3:
 					m_endGameText.setString("Egalité");
 					break;
 			}
-			return restartGame();
+			return true;
 		}
 
 		m_currentPlayer = (m_currentPlayer + 1) % 2;
-	}
-
-	return true;
-}
-
-bool Application::restartGame()
-{
-	int continuer = true;
-	sf::Event event;
-
-	m_restartText.setString("Voulez - vous recommencer ? (o = Oui / n = Non)");
-
-	while (continuer)
-	{
-		m_window.waitEvent(event);
-		switch (event.type)
-		{
-			case sf::Event::KeyPressed :
-				switch (event.key.code)
-				{
-					case sf::Keyboard::Escape :
-					case sf::Keyboard::N :
-						continuer = false;
-						break;
-					case sf::Keyboard::O :
-
-						/* Réinitialisation du score et de la grille */
-						m_turnNum = 0;
-						m_grid.emptyGrid();
-
-						m_endGameText.setString("");
-						m_restartText.setString("");
-
-						return true;
-				}
-				break;
-			case sf::Event::Closed :
-				continuer = false;
-				m_window.close();
-				break;
-		}
+		m_selectedPlayer.move(m_currentPlayer ? sf::Vector2f(400.f, 0.f) : sf::Vector2f(-400.f, 0.f));
 	}
 
 	return false;
+}
+
+bool Application::restartGame(const sf::Event & event)
+{
+	m_restartText.setString("Voulez - vous recommencer ? (o = Oui / n = Non)");
+	if (event.type == sf::Event::KeyPressed)
+	{
+		switch (event.key.code)
+		{
+			case sf::Keyboard::Escape:
+			case sf::Keyboard::N:
+				return false;
+			case sf::Keyboard::O:
+
+				/* Réinitialisation du score et de la grille */
+				m_turnNum = 0;
+				m_grid.emptyGrid();
+
+				m_endGameText.setString("");
+				m_restartText.setString("");
+
+				return true;
+		}
+	}
+
+	return true;
 }

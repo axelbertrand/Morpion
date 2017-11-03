@@ -73,12 +73,13 @@ int Player::checkWin(Grid & grid, int turnNum)
 	if (winner != 0)
 	{
 		++m_score;
-		return winner;
 	}
 	else if (turnNum >= 9)
 	{
-		return 3; // Egalité
+		winner = 3; // Egalité
 	}
+
+	return winner;
 }
 
 void Player::incrementScore()
