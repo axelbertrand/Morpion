@@ -41,7 +41,7 @@ bool Player::play(Grid & grid, int x, int y)
 	return false;
 }
 
-int Player::checkWin(Grid & grid, int turnNum)
+int Player::checkWin(Grid & grid, int turnNum) const
 {
 	int winner = 0;
 
@@ -70,11 +70,7 @@ int Player::checkWin(Grid & grid, int turnNum)
 		// Dessiner une ligne diagonale SO-NE
 	}
 
-	if (winner != 0)
-	{
-		++m_score;
-	}
-	else if (turnNum >= 9)
+	if (winner == 0 && turnNum >= 9)
 	{
 		winner = 3; // Egalité
 	}

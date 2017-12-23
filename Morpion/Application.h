@@ -28,8 +28,10 @@ class Application
 		sf::Font m_font;
 		Grid m_grid;
 		int m_currentPlayer;
+		int m_starterPlayer;
 		Player* m_players[2];
 		sf::RectangleShape m_selectedPlayer;
-		int m_turnNum = 0;
+		int m_turnNum;
+		bool m_isFinished;
 };
 

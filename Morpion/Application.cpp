@@ -9,7 +9,10 @@ Application::Application() :
 	m_font(),
 	m_grid(sf::Vector2f(200.f, 200.f)),
 	m_currentPlayer(0),
-	m_selectedPlayer()
+	m_starterPlayer(0),
+	m_selectedPlayer(),
+	m_turnNum(0),
+	m_isFinished(false)
 {
 	m_window.setKeyRepeatEnabled(false);
 
@@ -22,7 +25,7 @@ Application::Application() :
 
 	m_restartText.setFont(m_font);
 	m_restartText.setColor(sf::Color::Black);
-	m_restartText.setPosition(sf::Vector2f(50.f, 500.f));
+	m_restartText.setPosition(sf::Vector2f(70.f, 520.f));
 
 	m_textP1.setString("Joueur 1 : 0");
 	m_textP1.setFont(m_font);
@@ -79,20 +82,28 @@ void Application::processEvents()
 
 	while (m_window.pollEvent(event))
 	{
-		if (event.type == sf::Event::MouseButtonPressed)
+		switch (event.type)
 		{
-			if (event.mouseButton.button == sf::Mouse::Left)
-			{
-				if (playTurn(event.mouseButton.x, event.mouseButton.y))
+			case sf::Event::MouseButtonPressed :
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+					if (playTurn(event.mouseButton.x, event.mouseButton.y))
+					{
+						m_isFinished = true;
+						m_restartText.setString("Voulez-vous recommencer ? (o = Oui / n = Non)");
+					}
+				}
+				break;
+			case sf::Event::KeyPressed :
+				if (m_isFinished)
 				{
 					if(!restartGame(event))
 						m_window.close();
 				}
-			}
-		}
-		else if (event.type == sf::Event::Closed)
-		{
-			m_window.close();
+				break;
+			case sf::Event::Closed :
+				m_window.close();
+				break;
 		}
 	}
 }
@@ -135,7 +146,7 @@ bool Application::playTurn(int xClic, int yClic)
 					s << "Joueur 2 : " << m_players[1]->getScore();
 					m_textP2.setString(s.str());
 					break;
-				case 3:
+				case 3 :
 					m_endGameText.setString("Egalité");
 					break;
 			}
@@ -151,26 +162,27 @@ bool Application::playTurn(int xClic, int yClic)
 
 bool Application::restartGame(const sf::Event & event)
 {
-	m_restartText.setString("Voulez - vous recommencer ? (o = Oui / n = Non)");
-	if (event.type == sf::Event::KeyPressed)
+	switch (event.key.code)
 	{
-		switch (event.key.code)
-		{
-			case sf::Keyboard::Escape:
-			case sf::Keyboard::N:
-				return false;
-			case sf::Keyboard::O:
+		case sf::Keyboard::Escape :
+		case sf::Keyboard::N :
+			return false;
+		case sf::Keyboard::O :
 
-				/* Réinitialisation du score et de la grille */
-				m_turnNum = 0;
-				m_grid.emptyGrid();
+			/* Réinitialisation du score et de la grille */
+			m_turnNum = 0;
+			m_grid.emptyGrid();
+			m_isFinished = false;
+			m_starterPlayer = (m_starterPlayer + 1) % 2;
+			if (m_currentPlayer != m_starterPlayer)
+			{
+				m_currentPlayer = m_starterPlayer;
+				m_selectedPlayer.move(m_currentPlayer ? sf::Vector2f(400.f, 0.f) : sf::Vector2f(-400.f, 0.f));
+			}
 
-				m_endGameText.setString("");
-				m_restartText.setString("");
+			m_endGameText.setString("");
+			m_restartText.setString("");
 
-				return true;
-		}
+			return true;
 	}
-
-	return true;
 }

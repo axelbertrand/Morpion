@@ -10,7 +10,7 @@ class Player
 		~Player();
 
 		bool play(Grid &grid, int x, int y);
-		int checkWin(Grid &grid, int turnNum);
+		int checkWin(Grid &grid, int turnNum) const;
 
 		void incrementScore();
 		int getScore() const;
