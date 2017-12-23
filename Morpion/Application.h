@@ -20,18 +20,18 @@ class Application
 
 		const sf::Time Application::TIME_PER_FRAME;
 
-		sf::RenderWindow m_window;
-		sf::Text m_textP1;
-		sf::Text m_textP2;
-		sf::Text m_endGameText;
-		sf::Text m_restartText;
-		sf::Font m_font;
-		Grid m_grid;
-		int m_currentPlayer;
-		int m_starterPlayer;
-		Player* m_players[2];
-		sf::RectangleShape m_selectedPlayer;
-		int m_turnNum;
-		bool m_isFinished;
+		sf::RenderWindow mWindow;
+		sf::Text mTextP1;
+		sf::Text mTextP2;
+		sf::Text mEndGameText;
+		sf::Text mRestartText;
+		sf::Font mFont;
+		Grid mGrid;
+		int mCurrentPlayer;
+		int mStarterPlayer;
+		Player* mPlayers[2];
+		sf::RectangleShape mSelectedPlayer;
+		int mTurnNum;
+		bool mIsFinished;
 };
 

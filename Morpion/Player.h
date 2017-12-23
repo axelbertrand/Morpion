@@ -16,7 +16,7 @@ class Player
 		int getScore() const;
 
 	private :
-		int m_playerNo;
-		int m_score;
+		int mPlayerNo;
+		int mScore;
 };
 

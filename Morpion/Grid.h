@@ -18,8 +18,8 @@ class Grid : public sf::Drawable, public sf::Transformable
 	private :
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-		sf::VertexArray m_vertices;
-		int m_gridArray[3][3];
-		sf::Drawable* m_gridShapes[3][3];
+		sf::VertexArray mVertices;
+		int mGridArray[3][3];
+		sf::Drawable* mGridShapes[3][3];
 };
 

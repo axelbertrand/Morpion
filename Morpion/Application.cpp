@@ -3,57 +3,59 @@
 
 Application::Application() :
 	TIME_PER_FRAME(sf::seconds(1.f / 60.f)),
-	m_window(sf::VideoMode(800u, 600u), "Morpion"),
-	m_textP1(),
-	m_textP2(),
-	m_font(),
-	m_grid(sf::Vector2f(200.f, 200.f)),
-	m_currentPlayer(0),
-	m_starterPlayer(0),
-	m_selectedPlayer(),
-	m_turnNum(0),
-	m_isFinished(false)
+	mWindow(sf::VideoMode(800u, 600u), "Morpion"),
+	mTextP1(),
+	mTextP2(),
+	mEndGameText(),
+	mRestartText(),
+	mFont(),
+	mGrid(sf::Vector2f(200.f, 200.f)),
+	mCurrentPlayer(0),
+	mStarterPlayer(0),
+	mSelectedPlayer(),
+	mTurnNum(0),
+	mIsFinished(false)
 {
-	m_window.setKeyRepeatEnabled(false);
+	mWindow.setKeyRepeatEnabled(false);
 
-	if (!m_font.loadFromFile("arial.ttf"))
+	if (!mFont.loadFromFile("arial.ttf"))
 		std::cerr << "erreur de chargement de la police" << std::endl;
 
-	m_endGameText.setFont(m_font);
-	m_endGameText.setColor(sf::Color::Black);
-	m_endGameText.setPosition(sf::Vector2f(300.f, 50.f));
+	mEndGameText.setFont(mFont);
+	mEndGameText.setColor(sf::Color::Black);
+	mEndGameText.setPosition(sf::Vector2f(300.f, 50.f));
 
-	m_restartText.setFont(m_font);
-	m_restartText.setColor(sf::Color::Black);
-	m_restartText.setPosition(sf::Vector2f(70.f, 520.f));
+	mRestartText.setFont(mFont);
+	mRestartText.setColor(sf::Color::Black);
+	mRestartText.setPosition(sf::Vector2f(70.f, 520.f));
 
-	m_textP1.setString("Joueur 1 : 0");
-	m_textP1.setFont(m_font);
-	m_textP1.setColor(sf::Color::Black);
-	m_textP1.setPosition(sf::Vector2f(100.f, 100.f));
+	mTextP1.setString("Joueur 1 : 0");
+	mTextP1.setFont(mFont);
+	mTextP1.setColor(sf::Color::Black);
+	mTextP1.setPosition(sf::Vector2f(100.f, 100.f));
 
-	m_textP2.setString("Joueur 2 : 0");
-	m_textP2.setFont(m_font);
-	m_textP2.setColor(sf::Color::Black);
-	m_textP2.setPosition(sf::Vector2f(500.f, 100.f));
+	mTextP2.setString("Joueur 2 : 0");
+	mTextP2.setFont(mFont);
+	mTextP2.setColor(sf::Color::Black);
+	mTextP2.setPosition(sf::Vector2f(500.f, 100.f));
 
-	sf::FloatRect bounds(m_textP1.getGlobalBounds());
+	sf::FloatRect bounds(mTextP1.getGlobalBounds());
 
-	m_selectedPlayer.setOutlineThickness(3);
-	m_selectedPlayer.setOutlineColor(sf::Color::Black);
-	m_selectedPlayer.setFillColor(sf::Color::Transparent);
-	m_selectedPlayer.setOrigin(sf::Vector2f(bounds.width / 2.f, bounds.width / 2.f));
-	m_selectedPlayer.setPosition(sf::Vector2f(bounds.left - 10 + bounds.width / 2.f, bounds.top - 10 + bounds.width / 2.f));
-	m_selectedPlayer.setSize(sf::Vector2f(bounds.width + 20, bounds.height + 20));
+	mSelectedPlayer.setOutlineThickness(3);
+	mSelectedPlayer.setOutlineColor(sf::Color::Black);
+	mSelectedPlayer.setFillColor(sf::Color::Transparent);
+	mSelectedPlayer.setOrigin(sf::Vector2f(bounds.width / 2.f, bounds.width / 2.f));
+	mSelectedPlayer.setPosition(sf::Vector2f(bounds.left - 10 + bounds.width / 2.f, bounds.top - 10 + bounds.width / 2.f));
+	mSelectedPlayer.setSize(sf::Vector2f(bounds.width + 20, bounds.height + 20));
 
-	m_players[0] = new Player(1);
-	m_players[1] = new Player(2);
+	mPlayers[0] = new Player(1);
+	mPlayers[1] = new Player(2);
 }
 
 Application::~Application()
 {
-	delete m_players[0];
-	delete m_players[1];
+	delete mPlayers[0];
+	delete mPlayers[1];
 }
 
 void Application::run()
@@ -61,7 +63,7 @@ void Application::run()
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate(sf::Time::Zero);
 
-	while (m_window.isOpen())
+	while (mWindow.isOpen())
 	{
 		sf::Time elapsedTime(clock.restart());
 		timeSinceLastUpdate += elapsedTime;
@@ -80,7 +82,7 @@ void Application::processEvents()
 {
 	sf::Event event;
 
-	while (m_window.pollEvent(event))
+	while (mWindow.pollEvent(event))
 	{
 		switch (event.type)
 		{
@@ -89,20 +91,20 @@ void Application::processEvents()
 				{
 					if (playTurn(event.mouseButton.x, event.mouseButton.y))
 					{
-						m_isFinished = true;
-						m_restartText.setString("Voulez-vous recommencer ? (o = Oui / n = Non)");
+						mIsFinished = true;
+						mRestartText.setString("Voulez-vous recommencer ? (o = Oui / n = Non)");
 					}
 				}
 				break;
 			case sf::Event::KeyPressed :
-				if (m_isFinished)
+				if (mIsFinished)
 				{
 					if(!restartGame(event))
-						m_window.close();
+						mWindow.close();
 				}
 				break;
 			case sf::Event::Closed :
-				m_window.close();
+				mWindow.close();
 				break;
 		}
 	}
@@ -110,22 +112,22 @@ void Application::processEvents()
 
 void Application::render()
 {
-	m_window.clear(sf::Color::White);
-	m_window.draw(m_textP1);
-	m_window.draw(m_textP2);
-	m_window.draw(m_grid);
-	m_window.draw(m_selectedPlayer);
-	m_window.draw(m_endGameText);
-	m_window.draw(m_restartText);
-	m_window.display();
+	mWindow.clear(sf::Color::White);
+	mWindow.draw(mTextP1);
+	mWindow.draw(mTextP2);
+	mWindow.draw(mGrid);
+	mWindow.draw(mSelectedPlayer);
+	mWindow.draw(mEndGameText);
+	mWindow.draw(mRestartText);
+	mWindow.display();
 }
 
 bool Application::playTurn(int xClic, int yClic)
 {
-	if (m_players[m_currentPlayer]->play(m_grid, xClic, yClic))
+	if (mPlayers[mCurrentPlayer]->play(mGrid, xClic, yClic))
 	{
-		++m_turnNum;
-		int winner = m_players[m_currentPlayer]->checkWin(m_grid, m_turnNum);
+		++mTurnNum;
+		int winner = mPlayers[mCurrentPlayer]->checkWin(mGrid, mTurnNum);
 		if (winner != 0)
 		{
 			std::stringstream s;
@@ -133,28 +135,28 @@ bool Application::playTurn(int xClic, int yClic)
 			{
 				case 1 :
 				case 2 :
-					m_players[winner - 1]->incrementScore();
+					mPlayers[winner - 1]->incrementScore();
 
 					s << "Le joueur " << winner << " a gagné !";
-					m_endGameText.setString(s.str());
+					mEndGameText.setString(s.str());
 
 					s.str("");
-					s << "Joueur 1 : " << m_players[0]->getScore();
-					m_textP1.setString(s.str());
+					s << "Joueur 1 : " << mPlayers[0]->getScore();
+					mTextP1.setString(s.str());
 
 					s.str("");
-					s << "Joueur 2 : " << m_players[1]->getScore();
-					m_textP2.setString(s.str());
+					s << "Joueur 2 : " << mPlayers[1]->getScore();
+					mTextP2.setString(s.str());
 					break;
 				case 3 :
-					m_endGameText.setString("Egalité");
+					mEndGameText.setString("Egalité");
 					break;
 			}
 			return true;
 		}
 
-		m_currentPlayer = (m_currentPlayer + 1) % 2;
-		m_selectedPlayer.move(m_currentPlayer ? sf::Vector2f(400.f, 0.f) : sf::Vector2f(-400.f, 0.f));
+		mCurrentPlayer = (mCurrentPlayer + 1) % 2;
+		mSelectedPlayer.move(mCurrentPlayer ? sf::Vector2f(400.f, 0.f) : sf::Vector2f(-400.f, 0.f));
 	}
 
 	return false;
@@ -170,18 +172,18 @@ bool Application::restartGame(const sf::Event & event)
 		case sf::Keyboard::O :
 
 			/* Réinitialisation du score et de la grille */
-			m_turnNum = 0;
-			m_grid.emptyGrid();
-			m_isFinished = false;
-			m_starterPlayer = (m_starterPlayer + 1) % 2;
-			if (m_currentPlayer != m_starterPlayer)
+			mTurnNum = 0;
+			mGrid.emptyGrid();
+			mIsFinished = false;
+			mStarterPlayer = (mStarterPlayer + 1) % 2;
+			if (mCurrentPlayer != mStarterPlayer)
 			{
-				m_currentPlayer = m_starterPlayer;
-				m_selectedPlayer.move(m_currentPlayer ? sf::Vector2f(400.f, 0.f) : sf::Vector2f(-400.f, 0.f));
+				mCurrentPlayer = mStarterPlayer;
+				mSelectedPlayer.move(mCurrentPlayer ? sf::Vector2f(400.f, 0.f) : sf::Vector2f(-400.f, 0.f));
 			}
 
-			m_endGameText.setString("");
-			m_restartText.setString("");
+			mEndGameText.setString("");
+			mRestartText.setString("");
 
 			return true;
 	}

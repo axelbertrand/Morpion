@@ -1,8 +1,8 @@
 #include "Player.h"
 
 Player::Player(int playerNo) :
-	m_playerNo(playerNo),
-	m_score(0)
+	mPlayerNo(playerNo),
+	mScore(0)
 {
 
 }
@@ -25,12 +25,12 @@ bool Player::play(Grid & grid, int x, int y)
 
 	if (grid.getGrid(i, j) == 0)
 	{
-		grid.setGrid(i, j, m_playerNo);
-		if (m_playerNo == 1)
+		grid.setGrid(i, j, mPlayerNo);
+		if (mPlayerNo == 1)
 		{
 			grid.drawCross(i, j);
 		}
-		else if (m_playerNo == 2)
+		else if (mPlayerNo == 2)
 		{
 			grid.drawCircle(i, j);
 		}
@@ -47,26 +47,26 @@ int Player::checkWin(Grid & grid, int turnNum) const
 
 	for (int i = 0; i < 3; ++i)
 	{
-		if ((grid.getGrid(0, i) == m_playerNo) && (grid.getGrid(1, i) == m_playerNo) && (grid.getGrid(2, i) == m_playerNo))
+		if ((grid.getGrid(0, i) == mPlayerNo) && (grid.getGrid(1, i) == mPlayerNo) && (grid.getGrid(2, i) == mPlayerNo))
 		{
-			winner = m_playerNo;
+			winner = mPlayerNo;
 			// Dessiner une ligne verticale
 		}
-		if ((grid.getGrid(i, 0) == m_playerNo) && (grid.getGrid(i, 1) == m_playerNo) && (grid.getGrid(i, 2) == m_playerNo))
+		if ((grid.getGrid(i, 0) == mPlayerNo) && (grid.getGrid(i, 1) == mPlayerNo) && (grid.getGrid(i, 2) == mPlayerNo))
 		{
-			winner = m_playerNo;
+			winner = mPlayerNo;
 			// Dessiner une ligne horizontale
 		}
 	}
 
-	if ((grid.getGrid(0, 0) == m_playerNo) && (grid.getGrid(1, 1) == m_playerNo) && (grid.getGrid(2, 2) == m_playerNo))
+	if ((grid.getGrid(0, 0) == mPlayerNo) && (grid.getGrid(1, 1) == mPlayerNo) && (grid.getGrid(2, 2) == mPlayerNo))
 	{
-		winner = m_playerNo;
+		winner = mPlayerNo;
 		// Dessiner une ligne diagonale NO-SE
 	}
-	if ((grid.getGrid(2, 0) == m_playerNo) && (grid.getGrid(1, 1) == m_playerNo) && (grid.getGrid(0, 2) == m_playerNo))
+	if ((grid.getGrid(2, 0) == mPlayerNo) && (grid.getGrid(1, 1) == mPlayerNo) && (grid.getGrid(0, 2) == mPlayerNo))
 	{
-		winner = m_playerNo;
+		winner = mPlayerNo;
 		// Dessiner une ligne diagonale SO-NE
 	}
 
@@ -80,10 +80,10 @@ int Player::checkWin(Grid & grid, int turnNum) const
 
 void Player::incrementScore()
 {
-	++m_score;
+	++mScore;
 }
 
 int Player::getScore() const
 {
-	return m_score;
+	return mScore;
 }
