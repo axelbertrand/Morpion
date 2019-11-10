@@ -22,21 +22,21 @@ Application::Application() :
 		std::cerr << "erreur de chargement de la police" << std::endl;
 
 	mEndGameText.setFont(mFont);
-	mEndGameText.setColor(sf::Color::Black);
+	mEndGameText.setFillColor(sf::Color::Black);
 	mEndGameText.setPosition(sf::Vector2f(300.f, 50.f));
 
 	mRestartText.setFont(mFont);
-	mRestartText.setColor(sf::Color::Black);
+	mRestartText.setFillColor(sf::Color::Black);
 	mRestartText.setPosition(sf::Vector2f(70.f, 520.f));
 
 	mTextP1.setString("Joueur 1 : 0");
 	mTextP1.setFont(mFont);
-	mTextP1.setColor(sf::Color::Black);
+	mTextP1.setFillColor(sf::Color::Black);
 	mTextP1.setPosition(sf::Vector2f(100.f, 100.f));
 
 	mTextP2.setString("Joueur 2 : 0");
 	mTextP2.setFont(mFont);
-	mTextP2.setColor(sf::Color::Black);
+	mTextP2.setFillColor(sf::Color::Black);
 	mTextP2.setPosition(sf::Vector2f(500.f, 100.f));
 
 	sf::FloatRect bounds(mTextP1.getGlobalBounds());
@@ -186,5 +186,7 @@ bool Application::restartGame(const sf::Event & event)
 			mRestartText.setString("");
 
 			return true;
+		default:
+			return false;
 	}
 }
